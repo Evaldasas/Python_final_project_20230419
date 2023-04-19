@@ -1,0 +1,47 @@
+    {% extends "base.html" %}
+    {% block content %}
+    <div class = "container" style = 'display: flex; flex-direction: row; justify-content: right;'>
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('new_category') }}">Create new category</a>
+    </div>
+    <div style = 'margin: 5px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;'>
+        <div style =  'flex: 20%;
+                        padding: 10px;
+                        margin: 5px;
+                        background-color: #f3f3f3;
+                        inline-size: 100%'>
+            {% if my_categories %}
+                {% for category in my_categories.items %}
+                    <div class="container" style = 'padding-left: 10px; background-color: #f8f9fa;'>
+                        <div class="container" style = 'display: flex; flex-direction: row; justify-content: space-between;'>
+                            <h5 style = 'width: 85%;' class="mt-0">{{category.category_name}}</h5>
+                            <p> {{datetime.strftime(category.date, "%Y-%m-%d")}} </p>
+                        </div>
+                        <div class="container" style = 'display: flex; flex-direction: row; justify-content: left;'>
+                            <a href="{{ url_for('category_notes', id=category['id']) }}" class="stretched-link">See all category notes..</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}               
+            {% else %}
+                <p>...</p>
+            {% endif %} 
+            <div class = "container" style = 'display: flex; flex-direction: row; justify-content: left;'>   
+                {% for page_num in my_categories.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if my_categories.page == page_num %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('my_categories', page=page_num) }}">{{ page_num }}</a>
+                        {% else %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('my_categories', page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        <p>...</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}    

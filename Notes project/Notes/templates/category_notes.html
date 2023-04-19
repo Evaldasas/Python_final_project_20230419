@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+    {% block content %}
+        <div class="content-section">
+            {% if category %}
+                <div class="container" >
+                    <div class="container">
+                        <div class = "container">
+                            <h3 class="mt-0" style="text-align: center; padding-left: 15px;">{{category.category_name}}</h3>
+                        </div>
+                        {% if all_notes  %}              
+                            {% for note in all_notes.items %}
+                                <div class="container" style = 'display: flex; flex-direction: column; background-color: #f8f9fa;'>
+                                    <div class="conatiner">
+                                        <h5 class="mt-0">{{note.note_title}}</h5>
+                                        <p style = 'font-size: 10px; color: blue;'> Added: {{ datetime.strftime(note.date, "%Y-%m-%d %H:%M:%S")}} </p>
+                                        <p>{{note.note_information}}</p>
+                                    </div>
+                                    <div class="container" style = 'display: flex; flex-direction: row; justify-content: right;'>
+                                        <a style = 'margin-right: 10px;' class="btn btn-info mb-4"  href="{{ url_for('note', id=note['id']) }}" class="stretched-link">See note..</a>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <p> This Category does not have any notes. </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+
+                <a class="btn btn-info mb-4" href="{{ url_for('new_category_note', id=id) }}" > Add note to this category</a>
+                <hr> 
+                <a class="btn btn-info mb-4" href="{{ url_for('update_category', id=id) }}" > Update category</a>
+
+                <a class="btn btn-info mb-4" href="{{ url_for('delete_category', id=id) }}" > Delete category</a>  
+            {% else %}
+                <p>...</p>
+            {% endif %}  
+            <a class="btn btn-info mb-4" href="/my_categories">Back to my categories</a>
+        </div>
+      </div>
+    {% endblock %}    
+
+
+

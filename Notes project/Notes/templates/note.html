@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+    {% block content %}
+        <div class="content-section">
+            {% if note %}
+                <div class= 'container'>
+                    <div class = 'container' style ='display: flex; flex-direction: column; width: 90%; margin: auto;' >
+                        <h5 style = 'text-align: center; margin: auto; width: 70%;'class="mt-0">{{note.note_title}} </h5>
+                        <br>
+                        <h6 style = 'margin: auto; width: 90%;' class="mt-0">{{note.note_information}}</h6>
+                    </div>
+                    <div class = 'container' style = 'display: flex; flex-direction: column; max-width: 90%; margin: auto;'>
+                        {% if note_images %}
+                        <hr> 
+                            {% for image in note_images %}
+                                <img style = 'margin: auto; width: 90%; margin-bottom: 10px;' src = {{ url_for('static', filename = 'note_pictures/'+ image.image_link) }}>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <div class = 'container' style ='display: flex; flex-direction: row; max-width: 90%; margin: auto; justify-content: right; '>
+                        <a style = "margin-right: 10px;" class="btn btn-outline-info mb-4"  href="{{ url_for('update_note', id=note['id']) }}">Update note</a>
+                        <a class="btn btn-outline-info mb-4"  href="{{ url_for('delete_note', id=note['id']) }}">Delete note</a>
+                    </div>
+                </div>
+            {% else %}
+                <p>...</p>
+            {% endif %}        
+        </div>
+    {% endblock %}

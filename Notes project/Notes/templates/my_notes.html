@@ -1,0 +1,44 @@
+ 
+    {% extends "base.html" %}
+    {% block content %}
+    <div class = 'container' style = 'margin: 5px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;'>
+        <div class = 'container' style =  'flex: 20%;
+                        padding: 10px;
+                        margin: 5px;
+                        background-color: #f3f3f3;
+                        inline-size: 100%'>
+            {% if my_notes %}
+                {% for note in my_notes.items %}
+                    <div class="container" style = 'display: flex; flex-direction: column; background-color: #f8f9fa;'>
+                        <div class="conatiner">
+                            <h5 class="mt-0">{{note.note_title}}</h5>
+                            <p style = 'font-size: 10px; color: blue;'> Added: {{ datetime.strftime(note.date, "%Y-%m-%d %H:%M:%S")}} </p>
+                            <p>{{note.note_information}}</p>
+                        </div>
+                        <div class="container" style = 'display: flex; flex-direction: row; justify-content: right;'>
+                            <a style = 'margin-right: 10px;' class="btn btn-info mb-4"  href="{{ url_for('note', id=note['id']) }}" class="stretched-link">See note..</a>
+                            <a class="btn btn-info mb-4"  href="{{ url_for('category_notes', id=note['category_id']) }}">Go to category</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}               
+            {% else %}
+                <p> You do not have any notes. Please select category and create note. </p>
+            {% endif %}    
+            {% for page_num in my_notes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if my_notes.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('my_notes', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('my_notes', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    <p>...</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}    

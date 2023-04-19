@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Note update page</legend>
+            {% if images%}
+                {% for image in images %}
+                <div style = 'display: flex; flex-direction: column; max-width: 90%; margin: auto;'>
+                    <img src= "{{ url_for('static', filename = 'note_pictures/' + image.image_link)}}" style = 'margin: auto; width: 45%;'>
+                    <a class="btn btn-info mb-4"  href="{{ url_for('delete_image', id=image.id, note_id=image.note_id) }}" style = 'width: 45%; margin: auto;'>Delete picture</a>
+                </div>
+                <hr>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                {{ form.note_title.label(class="form-control-label") }}
+
+                {% if form.note_title.errors %}
+                {{ form.note_title(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.note_title.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.note_title(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.note_information.label(class="form-control-label") }}
+                {% if form.note_information.errors %}
+                {{ form.note_information(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.note_information.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.note_information(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.note_image.label() }}
+                {{ form.note_image(class="form-control-file") }}
+                {% if form.note_image.errors %}
+                    {% for error in form.note_image.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}
